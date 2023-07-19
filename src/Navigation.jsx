@@ -19,7 +19,7 @@ const Navigation = () => {
             <Nav className="me-auto">
               <div>
                 <Button variant="primary" onClick={() => setModalShow(true)}>
-                 Preferences
+                  Preferences
                 </Button>
 
                 <Preferences

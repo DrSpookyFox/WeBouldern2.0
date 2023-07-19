@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
 
 const Preferences = (props) => {
+  const [value, onChange] = useState({
+    minGrade: 2,
+    maxGrade: 8,
+    spotters: 1,
+    crashpads: 1,
+    minTemp: 40,
+    maxTemp: 75,
+  });
+
+  // stopping point. Must make function for collecting responses, and differentiate values for useEffect for range value. 
+  // Also this is the start of a deconstructed array: {minGrade,maxGrade,spotters,crashpads,minTemp, maxTemp}
+  useEffect(() => {
+    const el = document.querySelector(".buble");
+    if (el) {
+      el.style.left = `${Number(value)}px`;
+    }
+  });
+
   return (
     <Modal
       {...props}
@@ -20,8 +37,28 @@ const Preferences = (props) => {
       <Modal.Body>
         <Form>
           <Form.Group>
-            <Form.Label>Grade Range</Form.Label>
-            <Form.Range />
+            <Form.Label>Min Grade Range:</Form.Label>
+            <div className="buble">V{value.minGrade}</div>
+            <Form.Range
+              min="0"
+              max="17"
+              step="1"
+              value={value.minGrade}
+              onChange={({ target: { value: radius } }) => {
+                onChange(radius);
+              }}
+            />
+            <Form.Label>Max Grade Range:</Form.Label>
+            <div className="buble">V{value.maxGrade}</div>
+            <Form.Range
+              min="0"
+              max="17"
+              step="1"
+              value={value.maxGrade}
+              onChange={({ target: { value: radius } }) => {
+                onChange(radius);
+              }}
+            />
           </Form.Group>
         </Form>
         {/* Make the categories below into ranges and collect responses in local storage */}
