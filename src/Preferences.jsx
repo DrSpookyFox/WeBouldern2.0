@@ -13,15 +13,15 @@ const Preferences = (props) => {
     maxTemp: 75,
   });
 
-  // stopping point. Must make function for collecting responses, and differentiate values for useEffect for range value. 
+  // stopping point. Must make function for collecting responses, and differentiate values for useEffect for range value.
   // Also this is the start of a deconstructed array: {minGrade,maxGrade,spotters,crashpads,minTemp, maxTemp}
   useEffect(() => {
     const el = document.querySelector(".buble");
+
     if (el) {
       el.style.left = `${Number(value)}px`;
     }
   });
-
   return (
     <Modal
       {...props}
@@ -38,8 +38,9 @@ const Preferences = (props) => {
         <Form>
           <Form.Group>
             <Form.Label>Min Grade Range:</Form.Label>
-            <div className="buble">V{value.minGrade}</div>
+            <div className="buble1">V{value.minGrade}</div>
             <Form.Range
+              name="minGrade"
               min="0"
               max="17"
               step="1"
@@ -51,6 +52,7 @@ const Preferences = (props) => {
             <Form.Label>Max Grade Range:</Form.Label>
             <div className="buble">V{value.maxGrade}</div>
             <Form.Range
+              name="maxGrade"
               min="0"
               max="17"
               step="1"
@@ -59,11 +61,57 @@ const Preferences = (props) => {
                 onChange(radius);
               }}
             />
+            <Form.Label>Number of crashpads:</Form.Label>
+            <div className="buble">{value.crashpads}</div>
+            <Form.Range
+              name="maxGrade"
+              min="1"
+              max="5"
+              step="1"
+              value={value.crashpads}
+              onChange={({ target: { value: radius } }) => {
+                onChange(radius);
+              }}
+            />
+            <Form.Label>Number of spotters: </Form.Label>
+            <div className="buble">{value.spotters}</div>
+            <Form.Range
+              name="maxGrade"
+              min="0"
+              max="4"
+              step="1"
+              value={value.spotters}
+              onChange={({ target: { value: radius } }) => {
+                onChange(radius);
+              }}
+            />
+            <Form.Label>Coldest tolerable temp:</Form.Label>
+            <div className="buble">{value.minTemp}°F</div>
+            <Form.Range
+              name="minTemp"
+              min="0"
+              max="17"
+              step="1"
+              value={value.minTemp}
+              onChange={({ target: { value: radius } }) => {
+                onChange(radius);
+              }}
+            />
+            <Form.Label>Hottest tolerable temp:</Form.Label>
+            <div className="buble">{value.maxTemp}°F</div>
+            <Form.Range
+              name="maxTemp"
+              min="0"
+              max="17"
+              step="1"
+              value={value.maxTemp}
+              onChange={({ target: { value: radius } }) => {
+                onChange(radius);
+              }}
+            />
           </Form.Group>
         </Form>
-        {/* Make the categories below into ranges and collect responses in local storage */}
-        Number of crashpads: Number of spotters: Coldest tolerable temp: Hottest
-        tolerable temp:
+         
       </Modal.Body>
       <Modal.Footer>
         <Button variant="primary" type="submit">
