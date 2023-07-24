@@ -14,18 +14,54 @@ const Preferences = (props) => {
     maxTemp: 75,
   });
 
-  const handleSubmit = (e) => {
+  const [show, setShow] = useState({
+    outerRangeGrade: false,
+    outerRangetemp: false,
+    submit: true,
+  });
+
+  const handleSubmit = (e, props) => {
     e.preventDefault();
-    if (value.minGrade >= value.maxGrade) {
-      console.log("alert Min grade is higher than the max grade", value);
-    } else if (value.minTemp >= value.maxTemp) {
-      console.log("alert! Min temp is higher than the max temp", value);
-    } else {
-      console.log(typeof value.minTemp);
+
+    if (value.minTemp >= value.maxTemp && value.minGrade >= value.maxGrade) {
+      setShow({ outerRangeGrade: true, outerRangetemp: true, submit: false });
+    } else if (
+      value.minGrade >= value.maxGrade &&
+      !value.minTemp >= value.maxTemp
+    ) {
+      setShow({ ...show, outerRangeGrade: true, submit: false });
+    } else if (
+      value.minTemp >= value.maxTemp &&
+      !value.minGrade >= value.maxGrade
+    ) {
+      setShow({ ...show, outerRangetemp: true, submit: false });
+    } else if (
+      value.minGrade <= value.maxGrade &&
+      value.minTemp <= value.maxTemp
+    ) {
+      localStorage.setItem("savedPreferences", JSON.stringify(value));
+      // close the modal window and then start the gunks with weather API
     }
   };
 
-  // Stopping point. Write a function that renders if there is an alert
+  const retry = () => {
+    if (show.outerRangeGrade && show.outerRangetemp) {
+      setValue({
+        ...value,
+        minTemp: 40,
+        maxTemp: 75,
+        minGrade: 2,
+        maxGrade: 8,
+      });
+      setShow({ outerRangeGrade: false, outerRangetemp: false, submit: true });
+    } else if (show.outerRangeGrade && !show.outerRangetemp) {
+      setValue({ ...value, minGrade: 2, maxGrade: 8 });
+      setShow({ outerRangeGrade: false, outerRangetemp: false, submit: true });
+    } else if (show.outerRangetemp && !show.outerRangeGrade) {
+      setValue({ ...value, minTemp: 40, maxTemp: 75 });
+      setShow({ outerRangeGrade: false, outerRangetemp: false, submit: true });
+    }
+  };
 
   return (
     <Modal
@@ -118,11 +154,26 @@ const Preferences = (props) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Alert key="danger" variant="danger"></Alert>
-        <Button variant="primary" type="submit" onClick={handleSubmit}>
-          Submit
-        </Button>
-        <Button onClick={props.onHide}>Close</Button>
+        {show.outerRangetemp && (
+          <Alert show={show.outerRangetemp} variant="danger">
+            The minimum temperature can't be higher than the maximum temperature
+          </Alert>
+        )}
+        {show.outerRangeGrade && (
+          <Alert show={show.outerRangeGrade} variant="danger">
+            The minimum grade can't be higher than the maximum grade
+          </Alert>
+        )}
+        {show.submit && (
+          <Button variant="primary" type="submit" onClick={handleSubmit}>
+            Submit
+          </Button>
+        )}
+        {!show.submit ? (
+          <Button onClick={retry}>Retry?</Button>
+        ) : (
+          <Button onClick={props.onHide}>Close</Button>
+        )}
       </Modal.Footer>
     </Modal>
   );
