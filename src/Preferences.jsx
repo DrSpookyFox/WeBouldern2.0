@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
 
 const Preferences = (props) => {
-  const [value, onChange] = useState({
+  const [value, setValue] = useState({
     minGrade: 2,
     maxGrade: 8,
     spotters: 1,
@@ -13,15 +14,19 @@ const Preferences = (props) => {
     maxTemp: 75,
   });
 
-  // stopping point. Must make function for collecting responses, and differentiate values for useEffect for range value.
-  // Also this is the start of a deconstructed array: {minGrade,maxGrade,spotters,crashpads,minTemp, maxTemp}
-  useEffect(() => {
-    const el = document.querySelector(".buble");
-
-    if (el) {
-      el.style.left = `${Number(value)}px`;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (value.minGrade >= value.maxGrade) {
+      console.log("alert Min grade is higher than the max grade", value);
+    } else if (value.minTemp >= value.maxTemp) {
+      console.log("alert! Min temp is higher than the max temp", value);
+    } else {
+      console.log(typeof value.minTemp);
     }
-  });
+  };
+
+  // Stopping point. Write a function that renders if there is an alert
+
   return (
     <Modal
       {...props}
@@ -38,7 +43,7 @@ const Preferences = (props) => {
         <Form>
           <Form.Group>
             <Form.Label>Min Grade Range:</Form.Label>
-            <div className="buble1">V{value.minGrade}</div>
+            <div>V{value.minGrade}</div>
             <Form.Range
               name="minGrade"
               min="0"
@@ -46,11 +51,11 @@ const Preferences = (props) => {
               step="1"
               value={value.minGrade}
               onChange={({ target: { value: radius } }) => {
-                onChange(radius);
+                setValue({ ...value, minGrade: radius });
               }}
             />
             <Form.Label>Max Grade Range:</Form.Label>
-            <div className="buble">V{value.maxGrade}</div>
+            <div>V{value.maxGrade}</div>
             <Form.Range
               name="maxGrade"
               min="0"
@@ -58,63 +63,63 @@ const Preferences = (props) => {
               step="1"
               value={value.maxGrade}
               onChange={({ target: { value: radius } }) => {
-                onChange(radius);
+                setValue({ ...value, maxGrade: radius });
               }}
             />
             <Form.Label>Number of crashpads:</Form.Label>
-            <div className="buble">{value.crashpads}</div>
+            <div>{value.crashpads}</div>
             <Form.Range
-              name="maxGrade"
+              name="crashpads"
               min="1"
               max="5"
               step="1"
               value={value.crashpads}
               onChange={({ target: { value: radius } }) => {
-                onChange(radius);
+                setValue({ ...value, crashpads: radius });
               }}
             />
             <Form.Label>Number of spotters: </Form.Label>
-            <div className="buble">{value.spotters}</div>
+            <div>{value.spotters}</div>
             <Form.Range
-              name="maxGrade"
+              name="spotters"
               min="0"
               max="4"
               step="1"
               value={value.spotters}
               onChange={({ target: { value: radius } }) => {
-                onChange(radius);
+                setValue({ ...value, spotters: radius });
               }}
             />
             <Form.Label>Coldest tolerable temp:</Form.Label>
-            <div className="buble">{value.minTemp}°F</div>
+            <div>{value.minTemp}°F</div>
             <Form.Range
               name="minTemp"
               min="0"
-              max="17"
+              max="100"
               step="1"
               value={value.minTemp}
               onChange={({ target: { value: radius } }) => {
-                onChange(radius);
+                setValue({ ...value, minTemp: radius });
               }}
             />
             <Form.Label>Hottest tolerable temp:</Form.Label>
-            <div className="buble">{value.maxTemp}°F</div>
+            <div>{value.maxTemp}°F</div>
             <Form.Range
               name="maxTemp"
               min="0"
-              max="17"
+              max="100"
               step="1"
               value={value.maxTemp}
               onChange={({ target: { value: radius } }) => {
-                onChange(radius);
+                setValue({ ...value, maxTemp: radius });
               }}
             />
           </Form.Group>
         </Form>
-         
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary" type="submit">
+        <Alert key="danger" variant="danger"></Alert>
+        <Button variant="primary" type="submit" onClick={handleSubmit}>
           Submit
         </Button>
         <Button onClick={props.onHide}>Close</Button>
