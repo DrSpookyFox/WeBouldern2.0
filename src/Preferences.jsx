@@ -4,6 +4,8 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 
+// have to figure out how to close modal after submitting
+
 const Preferences = (props) => {
   const [value, setValue] = useState({
     minGrade: 2,
@@ -40,7 +42,7 @@ const Preferences = (props) => {
       value.minTemp <= value.maxTemp
     ) {
       localStorage.setItem("savedPreferences", JSON.stringify(value));
-      // close the modal window and then start the gunks with weather API
+     
     }
   };
 
@@ -165,7 +167,12 @@ const Preferences = (props) => {
           </Alert>
         )}
         {show.submit && (
-          <Button variant="primary" type="submit" onClick={handleSubmit}>
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={handleSubmit}
+            onSubmit={props.onHide}
+          >
             Submit
           </Button>
         )}

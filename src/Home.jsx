@@ -1,8 +1,29 @@
+import { useState } from "react";
 import React from "react";
 import Navigation from "./Navigation";
 import Footie from "./Footie";
+import axios from "axios";
+
+// process.env.REACT_APP_WEATHER_API
+const cragLocations = [
+  { cragName: "Gunks", lat: 41.747532, lon: 74.086891 },
+  { cragName: "Acadia", lat: 44.338974, lon: 68.2733 },
+  { cragName: "Smugglers Notch", lat: 44.5905, lon: 72.7844 },
+];
+
+const openWeatherURL = `https://api.openweathermap.org/data/3.0/onecall?lat=41.747532&lon=74.086891&units=imperial&appid=${process.env.WEATHER_API}`;
 
 const Home = () => {
+  const [weather, setWeather] = useState(null);
+
+  // React.useEffect(() => {
+  //   axios.get(openWeatherURL).then((response) => {
+  //     setPost(response.data);
+  //   });
+  // }, []);
+
+  // if (!weather) return null;
+  // console.log(JSON.parse(weather));
   return (
     <>
       <Navigation />

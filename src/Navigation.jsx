@@ -25,6 +25,7 @@ const Navigation = () => {
                 <Preferences
                   show={modalShow}
                   onHide={() => setModalShow(false)}
+                  onSubmit={() => setModalShow(false)}
                 />
               </div>
               <NavDropdown title="Bouldering Areas" id="basic-nav-dropdown">
