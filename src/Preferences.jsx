@@ -42,7 +42,8 @@ const Preferences = (props) => {
       value.minTemp <= value.maxTemp
     ) {
       localStorage.setItem("savedPreferences", JSON.stringify(value));
-     
+      console.log("submitted!")
+
     }
   };
 

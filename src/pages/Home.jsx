@@ -1,32 +1,30 @@
 import { useState } from "react";
 import React from "react";
-import Navigation from "./Navigation";
-import Footie from "./Footie";
+
 import axios from "axios";
 
-// process.env.REACT_APP_WEATHER_API
 const cragLocations = [
   { cragName: "Gunks", lat: 41.747532, lon: 74.086891 },
   { cragName: "Acadia", lat: 44.338974, lon: 68.2733 },
   { cragName: "Smugglers Notch", lat: 44.5905, lon: 72.7844 },
 ];
-
-const openWeatherURL = `https://api.openweathermap.org/data/3.0/onecall?lat=41.747532&lon=74.086891&units=imperial&appid=${process.env.WEATHER_API}`;
+const weatherApiKey = process.env.REACT_APP_WEATHER_API;
+const openWeatherURL = `https://api.openweathermap.org/data/3.0/onecall?lat=41.747532&lon=-74.086891&units=imperial&appid=${weatherApiKey}`;
 
 const Home = () => {
   const [weather, setWeather] = useState(null);
 
-  // React.useEffect(() => {
-  //   axios.get(openWeatherURL).then((response) => {
-  //     setPost(response.data);
-  //   });
-  // }, []);
+  React.useEffect(() => {
+    axios.get(openWeatherURL).then((response) => {
+      setWeather(response.data);
+    });
+  }, []);
+  if (!weather) return null;
+  console.log(weather);
 
-  // if (!weather) return null;
-  // console.log(JSON.parse(weather));
   return (
     <>
-      <Navigation />
+      
       <div className="container">
         <div className="row">
           <div className="col-9"></div>
@@ -35,15 +33,13 @@ const Home = () => {
               <h1 className="display-4">Sup Boulderers!</h1>
               <ul className="lead">
                 <li data-temperature>
-                  The current weather in The Gunks is: 85°F
+                  The current weather in The Gunks is: {weather.current.temp}°F
                 </li>
               </ul>
             </div>
           </div>
         </div>
       </div>
-
-      <Footie />
     </>
   );
 };
