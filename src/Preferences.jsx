@@ -22,7 +22,7 @@ const Preferences = (props) => {
     submit: true,
   });
 
-  const handleSubmit = (e, props) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (value.minTemp >= value.maxTemp && value.minGrade >= value.maxGrade) {
@@ -42,8 +42,8 @@ const Preferences = (props) => {
       value.minTemp <= value.maxTemp
     ) {
       localStorage.setItem("savedPreferences", JSON.stringify(value));
-      console.log("submitted!")
-
+      console.log("submitted!");
+      alert("Preferences were saved");
     }
   };
 

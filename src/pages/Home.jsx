@@ -20,7 +20,7 @@ const Home = () => {
     });
   }, []);
   if (!weather) return null;
-  console.log(weather);
+
 
   return (
     <>
