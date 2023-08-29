@@ -1,26 +1,29 @@
 .card-container {
-  width: 15rem;
+  width: 200px;
   border-radius: 1rem;
   box-shadow: 0px 10px 8px #999;
   display: flex;
   flex-direction: column;
-  margin: 0.1rem;
+  margin: 0.4rem;
   background-color: white;
-  height: fit-content;
-  
+  height: 650px;
 }
 
 .card-img {
   width: 100%;
+  max-height: 150px ;
   border-radius: 1rem 1rem 0 0;
 }
 
 .card-title {
+  font-size: large;
   margin: 0.5rem 5%;
 }
 
 .card-description {
-  margin: 0.5rem 5%;
+  height: 90%;
+  margin: 0.5rem 0.8px;
+  font-size: small;
 }
 
 .card-btn {

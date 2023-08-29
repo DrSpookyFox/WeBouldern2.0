@@ -1,20 +1,18 @@
+import "./page.css"
 import React from "react";
 import ModalCard from "../cards/ModalCard";
+import boulderInfoGunks from "../../db/boulderInfo - Gunks";
+
 
 const Gunks = () => {
+  const cards = boulderInfoGunks.map((item) => {
+    return <ModalCard key={item.id} {...item} />;
+  });
+
   return (
     <>
       <h1>Gunks Page</h1>
-      <ModalCard
-        imgSrc="https://picsum.photos/id/201/300/200"
-        imgAlt="Black Boulder"
-        title="Black Boulder"
-        description="A classic Gunks Climb. Start in a sit start and then follow the obvious face to a comfy topout"
-        buttonText="Learn More"
-        GPSlocation="card2"
-        spotters="1"
-        grade="V5"
-      />
+      <section className="cards-list">{cards}</section>
     </>
   );
 };
